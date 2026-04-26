@@ -1,0 +1,38 @@
+# Network Anomaly Detector Configuration
+
+pipeline:
+  interface: "eth0"           # Интерфейс для захвата
+  flow_timeout: 60            # Таймаут потока (секунды)
+  batch_size: 100             # Размер батча для обработки
+
+models:
+  isolation_forest:
+    contamination: 0.05
+    n_estimators: 100
+
+  lstm_autoencoder:
+    latent_dim: 32
+    sequence_length: 10
+    learning_rate: 0.001
+    epochs: 100
+    batch_size: 32
+    validation_split: 0.1
+
+ensemble:
+  quick_weight: 0.3
+  deep_weight: 0.7
+
+thresholds:
+  low: 0.3
+  medium: 0.5
+  high: 0.7
+  critical: 0.8
+
+monitoring:
+  log_file: "anomaly_detector.log"
+  stats_interval: 60          # Секунды
+  history_size: 10000
+
+api:
+  host: "0.0.0.0"
+  port: 8000
